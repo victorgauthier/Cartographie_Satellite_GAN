@@ -44,8 +44,8 @@ Papier originel: https://arxiv.org/abs/1611.07004.pdf
     pip install tensorboard
     tensorboard --logdir=runs
 ```
-![image](./maps/assets/tensorboard_loss.png)
-![image](./maps/assets/tensorboard_images.png)
+![image](./assets/tensorboard_loss.png)
+![image](./assets/tensorboard_images.png)
 
 
 ## Résultat
