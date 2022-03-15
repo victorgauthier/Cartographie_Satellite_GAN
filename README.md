@@ -8,6 +8,8 @@ Papier originel: https://arxiv.org/abs/1611.07004.pdf
 * Un exemple est disponible sur ce repo. 
 * Une fois téléchargé, il est nécessaire de remplacer le dossier '/maps' ici présent par celui téléchargé.
 
+![image](./maps/train/train/1.jpg)
+
 ## Hyper paramètres
 
 * Taille de batch: **1**
