@@ -32,9 +32,12 @@ Papier originel: https://arxiv.org/abs/1611.07004.pdf
 * BatchNorm sur chaque couche excepté C64
 * Les deux dernières couches ont: kernel_size=4, stride=1, padding=1
 
+## Visualisation pendant l'entrainement
 
-
-
-
-
-
+* Nous utilisons TensorBoard pour visualiser les loss et les images à chaque époque.
+* Vous trouverez la documentation [ici](https://pytorch.org/docs/stable/tensorboard.html)
+* Vous pouvez installer et lancer TensorBoard avec:
+``
+pip install tensorboard
+tensorboard --logdir=runs
+``
