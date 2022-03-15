@@ -6,8 +6,8 @@ def show_image(img, title="No title", figsize=(5,5)):
     img = img.numpy().transpose(1,2,0)
     mean = np.array([0.5, 0.5, 0.5])
     std = np.array([0.5, 0.5, 0.5])
-    
     img = img * std + mean
+
     np.clip(img, 0, 1)
     
     plt.figure(figsize=figsize)

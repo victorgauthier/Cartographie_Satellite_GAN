@@ -130,3 +130,5 @@ dmypy.json
 
 # Dataset
 /maps
+/trained_networks
+/runs

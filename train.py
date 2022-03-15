@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from torch.utils.tensorboard import SummaryWriter
 
 from hyper_parameters import ngpu, device, lr, beta1, beta2, NUM_EPOCHS, L1_lambda
 from data_load import dataloader_train
@@ -40,6 +41,8 @@ criterion = nn.BCELoss()
 
 optimizerD = optim.Adam(model_D.parameters(), lr=lr, betas=(beta1, beta2))
 optimizerG = optim.Adam(model_G.parameters(), lr=lr, betas=(beta1, beta2))
+
+writer = SummaryWriter()
 
 for epoch in range(NUM_EPOCHS+1):
     print(f"Training epoch {epoch+1}")
@@ -86,10 +89,27 @@ for epoch in range(NUM_EPOCHS+1):
             lossG = criterion(outputs, labels) + L1_lambda * torch.abs(gens-targets).sum()
             lossG.backward()
             optimizerG.step()
-            
-    if(epoch%5==0):
-        torch.save(model_G, "./Generator.pth")
-        torch.save(model_D, "./Discriminator.pth")
+
+    # Visualization with TensorBoard
+
+    writer.add_scalar('Loss/Discriminator_loss_on_real_data', lossD_real.item(), epoch)
+    writer.add_scalar('Loss/Discriminator_loss_on_fake_data', lossD_fake.item(), epoch)
+    writer.add_scalar('Loss/Generator_loss', lossG.item(), epoch)
+    writer.add_image('Images/1_Sat', inputs.detach().cpu()[0], epoch)
+    writer.add_image('Images/2_Fake_Map', gens.detach().cpu()[0], epoch)
+    writer.add_image('Images/3_Real_Map', targets.detach().cpu()[0], epoch)
+
+    # Saving trained
+
+    if(epoch%20==0):
+        torch.save(model_G, "./trained_networks/old/generator_epoch_" + str(epoch) + ".pth")
+        torch.save(model_D, "./trained_networks/old/discriminator_epoch_" + str(epoch) + ".pth")
+    
+    torch.save(model_G, "./trained_networks/generator_last.pth")
+    torch.save(model_D, "./trained_networks/discriminator_last.pth")
+
+
+writer.close()
     
 print("Done!")
 
