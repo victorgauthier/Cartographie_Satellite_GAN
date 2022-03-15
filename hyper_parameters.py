@@ -4,7 +4,7 @@ bs=1 # suggested by the paper
 lr=0.0002 
 beta1=0.5
 beta2=0.999
-NUM_EPOCHS = 50
+NUM_EPOCHS = 200
 ngpu = 1
 L1_lambda = 100
 
