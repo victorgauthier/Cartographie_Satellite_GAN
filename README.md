@@ -38,5 +38,9 @@ Papier originel: https://arxiv.org/abs/1611.07004.pdf
 * Vous trouverez la documentation [ici](https://pytorch.org/docs/stable/tensorboard.html)
 * Vous pouvez installer et lancer TensorBoard avec:
 
+
     pip install tensorboard
     tensorboard --logdir=runs
+
+
+## Résultat
