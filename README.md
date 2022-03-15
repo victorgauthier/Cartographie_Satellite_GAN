@@ -1,6 +1,6 @@
 # Projet_Deep_Learning
 
-Papier originel: https://arxiv.org/abs/1611.07004
+Papier originel: https://arxiv.org/abs/1611.07004.pdf
 
 ## Description du dataset
 
