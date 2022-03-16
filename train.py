@@ -1,7 +1,8 @@
+from torch.utils.tensorboard import SummaryWriter
+import time
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.tensorboard import SummaryWriter
 
 from hyper_parameters import ngpu, device, lr, beta1, beta2, NUM_EPOCHS, L1_lambda
 from data_load import dataloader_train
@@ -45,7 +46,9 @@ optimizerG = optim.Adam(model_G.parameters(), lr=lr, betas=(beta1, beta2))
 writer = SummaryWriter()
 
 for epoch in range(NUM_EPOCHS+1):
-    print(f"Training epoch {epoch+1}")
+    start = time.time()
+
+
     for images,_ in iter(dataloader_train):
         # ========= Train Discriminator ===========
         # Train on real data
@@ -95,9 +98,7 @@ for epoch in range(NUM_EPOCHS+1):
     writer.add_scalar('Loss/Discriminator_loss_on_real_data', lossD_real.item(), epoch)
     writer.add_scalar('Loss/Discriminator_loss_on_fake_data', lossD_fake.item(), epoch)
     writer.add_scalar('Loss/Generator_loss', lossG.item(), epoch)
-    writer.add_image('Images/1_Sat', inputs.detach().cpu()[0], epoch)
-    writer.add_image('Images/2_Fake_Map', gens.detach().cpu()[0], epoch)
-    writer.add_image('Images/3_Real_Map', targets.detach().cpu()[0], epoch)
+    writer.add_image('Images', torch.cat((inputs,gens,targets),dim = 3).detach().cpu()[0], epoch)
 
     # Saving trained
 
@@ -107,6 +108,8 @@ for epoch in range(NUM_EPOCHS+1):
     
     torch.save(model_G, "./trained_networks/generator_last.pth")
     torch.save(model_D, "./trained_networks/discriminator_last.pth")
+
+    print(f"Training epoch {epoch+1}, duration :",round(time.time()-start,1),"sec")
 
 
 writer.close()

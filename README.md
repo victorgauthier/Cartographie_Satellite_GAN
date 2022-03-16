@@ -49,3 +49,9 @@ Papier originel: https://arxiv.org/abs/1611.07004.pdf
 
 
 ## Résultat
+
+![image](./assets/satellite_grid.png)
+
+![image](./assets/generated_grid.png)
+
+![image](./assets/map_grid.png)
