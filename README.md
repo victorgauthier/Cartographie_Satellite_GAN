@@ -7,8 +7,12 @@ Papier originel: https://arxiv.org/abs/1611.07004.pdf
 * Nous utilisons le dataset du papier original (pix2pix) : [Télécharger le dataset](https://drive.google.com/file/d/1s5a2UeJR4H_KJ-nV4NmRMkBHr3zn20Tf/view?usp=sharing)
 * Un exemple est disponible sur ce repo. 
 * Une fois téléchargé, il est nécessaire de remplacer le dossier '/maps' ici présent par celui téléchargé.
+* Un autre dataset bien plus gros est fournis ici: [Répertoire GitHub](https://github.com/taesungp/larger-google-sat2maps-dataset). Le code permettant de générer d'autres datasets est également fourni mais il est nécessaire de posséder une clé API Google Maps (payante à l'utilisation).
+
 
 ![image](./maps/train/train/1.jpg)
+
+
 
 ## Hyper paramètres
 

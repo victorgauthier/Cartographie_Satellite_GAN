@@ -1,11 +1,12 @@
 import torch
 
-bs=1 # suggested by the paper
-lr=0.0002 
-beta1=0.5
-beta2=0.999
+BATCH_SIZE = 1  # Suggested by the original paper of pix2pix
+LEARNING_RATE = 0.0002
+BETA1 = 0.5
+BETA2 = 0.999
 NUM_EPOCHS = 200
-ngpu = 1
-L1_lambda = 100
+NGPU = 1
+L1_LAMBDA = 100  # <= 0 ---> Loss not calculated
+L2_LAMBDA = 0  # <= 0 ---> Loss not calculated
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
