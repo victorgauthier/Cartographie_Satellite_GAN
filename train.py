@@ -50,9 +50,9 @@ def D_Loss(outputs, labels):
 
 def G_Loss(outputs, labels, gens, targets):
     loss = GAN_Loss(outputs, labels)
-    if L1_LAMBDA != 0:
+    if L1_LAMBDA > 0:
         loss += L1_LAMBDA * L1_Loss(gens, targets)
-    if L2_LAMBDA != 0:
+    if L2_LAMBDA > 0:
         loss += L2_LAMBDA * L2_Loss(gens, targets)
     return loss
 
