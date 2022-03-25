@@ -3,8 +3,9 @@ import time
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import torchvision
 
-from hyper_parameters import NGPU, DEVICE, LEARNING_RATE, BETA1, BETA2, NUM_EPOCHS, L1_LAMBDA, L2_LAMBDA
+from hyper_parameters import NGPU, DEVICE, LEARNING_RATE, BETA1, BETA2, NUM_EPOCHS, L1_LAMBDA, L2_LAMBDA, P_LAMBDA
 from data_load import dataloader_train
 from functions import weights_init
 from networks import Generator, Discriminator
@@ -39,6 +40,11 @@ out1 = model_D(torch.cat([images[:, :, :, :256].to(
     DEVICE), images[:, :, :, 256:].to(DEVICE)], dim=1)).to(DEVICE)
 out2 = torch.ones(size=out1.shape, dtype=torch.float, device=DEVICE)
 
+# Initialization of the loss network
+
+if P_LAMBDA > 0:
+    model_P = torchvision.models.vgg19(pretrained=True)
+
 # Loss Definition
 
 GAN_Loss = nn.BCELoss()
@@ -47,7 +53,8 @@ L2_Loss = nn.MSELoss(reduction='sum')
 
 
 def D_Loss(outputs, labels):
-    return 0.5*GAN_Loss(outputs, labels)
+    loss = 0.5*GAN_Loss(outputs, labels)
+    return loss
 
 
 def G_Loss(outputs, labels, gens, targets):
@@ -56,7 +63,12 @@ def G_Loss(outputs, labels, gens, targets):
         loss += L1_LAMBDA * L1_Loss(gens, targets)
     if L2_LAMBDA > 0:
         loss += L2_LAMBDA * L2_Loss(gens, targets)
+    if P_LAMBDA > 0:
+        feature_gens = model_P(gens)
+        feature_targets = model_P(targets)
+        loss += P_LAMBDA * L2_Loss(feature_gens, feature_targets)
     return loss
+
 
 # Optimizer Definition
 
@@ -125,6 +137,9 @@ for epoch in range(NUM_EPOCHS+1):
             lossG = G_Loss(outputs, labels, gens, targets)
             lossG.backward()
             optimizerG.step()
+
+        # ========= Train Generator x2 times ============
+        # maximize log(D(x, G(x)))
 
     # Visualization with TensorBoard
 

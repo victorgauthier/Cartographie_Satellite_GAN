@@ -8,5 +8,6 @@ NUM_EPOCHS = 200
 NGPU = 1
 L1_LAMBDA = 0  # <= 0 ---> Loss not calculated
 L2_LAMBDA = 100  # <= 0 ---> Loss not calculated
+P_LAMBDA = 1
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
