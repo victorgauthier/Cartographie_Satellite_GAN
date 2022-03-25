@@ -6,7 +6,7 @@ BETA1 = 0.5
 BETA2 = 0.999
 NUM_EPOCHS = 200
 NGPU = 1
-L1_LAMBDA = 100  # <= 0 ---> Loss not calculated
-L2_LAMBDA = 0  # <= 0 ---> Loss not calculated
+L1_LAMBDA = 0  # <= 0 ---> Loss not calculated
+L2_LAMBDA = 100  # <= 0 ---> Loss not calculated
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

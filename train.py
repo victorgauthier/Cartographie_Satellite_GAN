@@ -9,13 +9,15 @@ from data_load import dataloader_train
 from functions import weights_init
 from networks import Generator, Discriminator
 
+print(DEVICE)
+
 # Loading data
 
 images, _ = next(iter(dataloader_train))
 
 # Initialization of the generator
 
-model_G = Generator(ngpu=1)
+model_G = Generator(ngpu=NGPU)
 
 if(DEVICE == "cuda" and NGPU > 1):
     model_G = nn.DataParallel(model_G, list(range(NGPU)))
@@ -25,7 +27,7 @@ model_G.to(DEVICE)
 
 # Initialization of the discriminator
 
-model_D = Discriminator(ngpu=1)
+model_D = Discriminator(ngpu=NGPU)
 
 if(DEVICE == "cuda" and NGPU > 1):
     model_D = torch.DataParallel(model_D, list(range(NGPU)))
@@ -88,7 +90,7 @@ for epoch in range(NUM_EPOCHS+1):
                             dtype=torch.float, device=DEVICE)
 
         # divide the objective by 2 -> slow down D
-        lossD_real = 0.5 * GAN_Loss(outputs, labels)
+        lossD_real = D_Loss(outputs, labels)
         lossD_real.backward()
 
         # Train on fake data
@@ -102,7 +104,7 @@ for epoch in range(NUM_EPOCHS+1):
                              dtype=torch.float, device=DEVICE)
 
         # divide the objective by 2 -> slow down D
-        lossD_fake = D_Loss(outputs, targets)
+        lossD_fake = D_Loss(outputs, labels)
         lossD_fake.backward()
 
         optimizerD.step()
