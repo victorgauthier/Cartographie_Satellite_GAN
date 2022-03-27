@@ -22,6 +22,8 @@ dataloader_train = torch.utils.data.DataLoader(
     dataset_train, batch_size=BATCH_SIZE, shuffle=True, num_workers=0)
 dataloader_val = torch.utils.data.DataLoader(
     dataset_val, batch_size=24, shuffle=True, num_workers=0)
+dataloader_val_big = torch.utils.data.DataLoader(
+    dataset_val, batch_size=1098, shuffle=True, num_workers=0)
 
 # print(len(dataset_train)) -> 1096
 # print(len(dataset_val)) -> 1098

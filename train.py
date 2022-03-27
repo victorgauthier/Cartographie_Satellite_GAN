@@ -53,6 +53,7 @@ L2_Loss = nn.MSELoss(reduction='sum')
 
 
 def D_Loss(outputs, labels):
+    # divide the loss by 2 -> slow down D
     loss = 0.5*GAN_Loss(outputs, labels)
     return loss
 
@@ -101,7 +102,6 @@ for epoch in range(NUM_EPOCHS+1):
         labels = torch.ones(size=outputs.shape,
                             dtype=torch.float, device=DEVICE)
 
-        # divide the objective by 2 -> slow down D
         lossD_real = D_Loss(outputs, labels)
         lossD_real.backward()
 
@@ -115,7 +115,6 @@ for epoch in range(NUM_EPOCHS+1):
         labels = torch.zeros(size=outputs.shape,
                              dtype=torch.float, device=DEVICE)
 
-        # divide the objective by 2 -> slow down D
         lossD_fake = D_Loss(outputs, labels)
         lossD_fake.backward()
 
