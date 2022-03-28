@@ -5,12 +5,26 @@ import torch.nn as nn
 import torch.optim as optim
 import torchvision
 
-from hyper_parameters import NGPU, DEVICE, LEARNING_RATE, BETA1, BETA2, NUM_EPOCHS, L1_LAMBDA, L2_LAMBDA, P_LAMBDA
+from hyper_parameters import NGPU, DEVICE, BATCH_SIZE, LEARNING_RATE, BETA1, BETA2, NUM_EPOCHS, L1_LAMBDA, L2_LAMBDA, P_LAMBDA
 from data_load import dataloader_train
 from functions import weights_init
 from networks import Generator, Discriminator
 
-print(DEVICE)
+print('--------------------------------------------------------')
+print('INITIALIZATION')
+print('--------------------------------------------------------')
+print('DEVICE :',DEVICE)
+print('NGPU :',NGPU)
+print('--------------------------------------------------------')
+print('HYPERPARAMETERS')
+print('--------------------------------------------------------')
+print('BATCH_SIZE :',BATCH_SIZE)
+print('LEARNING_RATE :',LEARNING_RATE)
+print('BETA1 :',BETA1)
+print('BETA2 :',BETA2)
+print('L1_LAMBDA :',L1_LAMBDA)
+print('L2_LAMBDA :',L2_LAMBDA)
+print('P_LAMBDA :',P_LAMBDA)
 
 # Loading data
 
@@ -44,12 +58,13 @@ out2 = torch.ones(size=out1.shape, dtype=torch.float, device=DEVICE)
 
 if P_LAMBDA > 0:
     model_P = torchvision.models.vgg19(pretrained=True)
+    model_P.to(DEVICE)
 
 # Loss Definition
 
 GAN_Loss = nn.BCELoss()
-L1_Loss = nn.L1Loss(reduction='sum')
-L2_Loss = nn.MSELoss(reduction='sum')
+L1_Loss = nn.L1Loss(reduction='mean')
+L2_Loss = nn.MSELoss(reduction='mean')
 
 
 def D_Loss(outputs, labels):
@@ -84,6 +99,10 @@ optimizerG = optim.Adam(model_G.parameters(),
 writer = SummaryWriter()
 
 # Training
+
+print('--------------------------------------------------------')
+print('TRAINING')
+print('--------------------------------------------------------')
 
 for epoch in range(NUM_EPOCHS+1):
     start = time.time()
@@ -161,10 +180,13 @@ for epoch in range(NUM_EPOCHS+1):
     torch.save(model_G, "./trained_networks/generator_last.pth")
     torch.save(model_D, "./trained_networks/discriminator_last.pth")
 
-    print(f"Training epoch {epoch+1}, duration :",
-          round(time.time()-start, 1), "sec")
+    print(f"TRAINING EPOCH {epoch} /",NUM_EPOCHS,", DURATION :",
+          round(time.time()-start, 1),'sec')
+    
 
 
 writer.close()
 
-print("Done!")
+print('--------------------------------------------------------')
+print("TRAINING DONE !")
+print('--------------------------------------------------------')

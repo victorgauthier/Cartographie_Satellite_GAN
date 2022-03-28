@@ -32,12 +32,16 @@ def weights_init(m):
 
 def all_measures_from_tensors(tensor1, tensor2):
     img1 = convert_tensor_into_image(tensor1)
+    img1 = (img1 * 255).astype(int)
+
     img2 = convert_tensor_into_image(tensor2)
+    img2 = (img2 * 255).astype(int)
 
     dict = {}
     dict['RMSE'] = swr.rmse(img1, img2)
     dict['PSNR'] = swr.psnr(img1, img2)
-    dict['SSIM'] = swr.ssim(img1, img2)
+    dict['SSIMx'] = swr.ssim(img1, img2)[0]
+    dict['SSIMy'] = swr.ssim(img1, img2)[1]
     dict['UQI'] = swr.uqi(img1, img2)
     dict['VIF'] = swr.vifp(img1, img2)
     dict['ERGAS'] = swr.ergas(img1, img2)
