@@ -9,7 +9,7 @@ from hyper_parameters import DEVICE
 from data_load import dataloader_val
 from functions import show_image_from_tensor, all_measures_from_tensors
 
-model_G = torch.load("./trained_networks/generator_last_L2_200.pth").to(DEVICE)
+model_G = torch.load("./trained_networks/generator_last_GAN_L1_200.pth").to(DEVICE)
 
 test_imgs, _ = next(iter(dataloader_val))
 
@@ -28,6 +28,9 @@ show_image_from_tensor(torchvision.utils.make_grid(gen, padding=10),
                        title="Generated", figsize=(50, 50))
 show_image_from_tensor(torchvision.utils.make_grid(maps, padding=10),
                        title="Expected Output", figsize=(50, 50))
+show_image_from_tensor(torch.cat(
+        (satellite, gen, maps), dim=3).detach().cpu()[0],
+                       title="", figsize=(50, 50))
 plt.show()
 
 print('--------------------------------------------------------')
