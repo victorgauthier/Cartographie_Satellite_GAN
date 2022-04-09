@@ -21,11 +21,15 @@ figure, axis = plt.subplots(2, 5)
 
 img_satellite = convert_tensor_into_image(satellite[0])
 axis[0, 0].imshow(img_satellite)
-axis[0, 0].set_title("Satellite") 
+axis[0, 0].set_title("Satellite")
+axis[0, 0].xaxis.set_visible(False) 
+axis[0, 0].yaxis.set_visible(False) 
 
 img_map = convert_tensor_into_image(maps[0])
 axis[0, 1].imshow(img_map)
 axis[0, 1].set_title("True map") 
+axis[0, 1].xaxis.set_visible(False) 
+axis[0, 1].yaxis.set_visible(False) 
 
 c = 0
 for path in path_list:
@@ -48,9 +52,14 @@ for path in path_list:
     else:
         r = 0
 
-    axis[r, (2 + c)%5 ].imshow(img_generated)
+    axis[r, (2 + c)%5].imshow(img_generated)
     axis[r, (2 + c)%5].set_title("("+str(c+1)+") "+path[:-4]) 
+    axis[r, (2 + c)%5].xaxis.set_visible(False) 
+    axis[r, (2 + c)%5].yaxis.set_visible(False) 
 
     c += 1
+
+axis[1, 4].xaxis.set_visible(False) 
+axis[1, 4].yaxis.set_visible(False)
 
 plt.show()
