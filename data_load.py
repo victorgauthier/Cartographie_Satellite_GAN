@@ -17,11 +17,15 @@ dataset_train = datasets.ImageFolder(root=os.path.join(
     data_dir, "train"), transform=data_transform)
 dataset_val = datasets.ImageFolder(root=os.path.join(
     data_dir, "val"), transform=data_transform)
+dataset_show = datasets.ImageFolder(root=os.path.join(
+    data_dir, "show"), transform=data_transform)
 
 dataloader_train = torch.utils.data.DataLoader(
     dataset_train, batch_size=BATCH_SIZE, shuffle=True, num_workers=0)
 dataloader_val = torch.utils.data.DataLoader(
     dataset_val, batch_size=24, shuffle=True, num_workers=0)
+dataloader_show = torch.utils.data.DataLoader(
+    dataset_show, batch_size=1, shuffle=True, num_workers=0)
 
 # print(len(dataset_train)) -> 1096
 # print(len(dataset_val)) -> 1098

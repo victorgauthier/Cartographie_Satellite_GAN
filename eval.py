@@ -9,29 +9,29 @@ from hyper_parameters import DEVICE
 from data_load import dataloader_val
 from functions import show_image_from_tensor, all_measures_from_tensors
 
-model_G = torch.load("./trained_networks/generator_last_GAN_L1_200.pth").to(DEVICE)
+model_G = torch.load("./trained_networks/old_GAN_L1_P_100/generator_epoch_100.pth").to(DEVICE)
 
 test_imgs, _ = next(iter(dataloader_val))
 
 satellite = test_imgs[:, :, :, :256].to(DEVICE)
 maps = test_imgs[:, :, :, 256:].to(DEVICE)
 
-gen = model_G(satellite)
+# gen = model_G(satellite)
 
-satellite = satellite.detach().cpu()
-gen = gen.detach().cpu()
-maps = maps.detach().cpu()
+# satellite = satellite.detach().cpu()
+# gen = gen.detach().cpu()
+# maps = maps.detach().cpu()
 
-show_image_from_tensor(torchvision.utils.make_grid(satellite, padding=10),
-                       title="Satellite", figsize=(50, 50))
-show_image_from_tensor(torchvision.utils.make_grid(gen, padding=10),
-                       title="Generated", figsize=(50, 50))
-show_image_from_tensor(torchvision.utils.make_grid(maps, padding=10),
-                       title="Expected Output", figsize=(50, 50))
-show_image_from_tensor(torch.cat(
-        (satellite, gen, maps), dim=3).detach().cpu()[0],
-                       title="", figsize=(50, 50))
-plt.show()
+# show_image_from_tensor(torchvision.utils.make_grid(satellite, padding=10),
+#                        title="Satellite", figsize=(50, 50))
+# show_image_from_tensor(torchvision.utils.make_grid(gen, padding=10),
+#                        title="Generated", figsize=(50, 50))
+# show_image_from_tensor(torchvision.utils.make_grid(maps, padding=10),
+#                        title="Expected Output", figsize=(50, 50))
+# show_image_from_tensor(torch.cat(
+#         (satellite, gen, maps), dim=3).detach().cpu()[0],
+#                        title="", figsize=(50, 50))
+# plt.show()
 
 print('--------------------------------------------------------')
 print('MEASURES CALCULATION')
